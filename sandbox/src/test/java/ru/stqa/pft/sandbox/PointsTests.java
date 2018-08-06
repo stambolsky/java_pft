@@ -8,11 +8,14 @@ import java.awt.*;
 public class PointsTests {
     @Test
     public void testArea(){
-        Point point = new Point();
-        Assert.assertEquals(point.distance(1, 2, 4, 9), 7.615773105863909);
-        Assert.assertEquals(point.distance(12, 25, 43, 75), 58.83026432033091);
-        Assert.assertEquals(point.distance(5, 20, 36, 89), 75.64390259630977);
-        Assert.assertEquals(point.distance(1.5, 2.7, 4.8, 9.1), 7.200694410957876);
+        Point p1 = new Point();
+        Point p2 = new Point(20, 40);
+
+
+        Assert.assertEquals(p1.distance(p2), 44.721359549995796);
+        Assert.assertEquals(p1.distance(60,100), 116.61903789690601);
+        Assert.assertEquals(p1.distance(52, 110), 121.67168939404104);
+        Assert.assertEquals(p1.distance(5.4, 8.9), 10.410091258005378);
 
     }
 
