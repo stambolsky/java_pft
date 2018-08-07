@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 class Points {
     public static void main(String[] args) {
         Point p1 = new Point(0,0);
