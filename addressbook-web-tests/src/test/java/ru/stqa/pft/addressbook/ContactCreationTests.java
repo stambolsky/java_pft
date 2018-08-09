@@ -17,7 +17,7 @@ public class ContactCreationTests {
     public void setUp() throws Exception {
         wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
         wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        wd.get("http://localhost/addressbook/edit.php");
+        wd.get("http://localhost/addressbook/");
         login("admin", "secret");
     }
 
@@ -33,8 +33,13 @@ public class ContactCreationTests {
 
     @Test
     public void testContactCreation() {
+        GotoContactPage();
         fillContactForm(new ContactData("Sergey", "Tambolsky", "test123", "+37512345678", "test@test.test"));
         submitContactCreation();
+    }
+
+    private void GotoContactPage() {
+        wd.get("http://localhost/addressbook/edit.php");
     }
 
     private void submitContactCreation() {
