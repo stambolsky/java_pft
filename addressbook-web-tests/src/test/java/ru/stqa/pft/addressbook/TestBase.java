@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -96,5 +97,30 @@ public class TestBase {
         wd.findElement(By.name("email")).click();
         wd.findElement(By.name("email")).clear();
         wd.findElement(By.name("email")).sendKeys(contactData.getEmail());
+    }
+
+    protected void goToHome() {
+        wd.findElement(By.linkText("HOME")).click();
+    }
+
+    protected void alertAcceptContact() {
+        Alert alert  = wd.switchTo().alert();
+        alert.accept();
+    }
+
+    protected void deleteSelectedContact() {
+        wd.findElement(By.xpath("//div[@id='content']/form[2]/div[2]/input")).click();
+    }
+
+    protected void selectContact() {
+        wd.findElement(By.name("selected[]")).click();
+    }
+
+    protected void deleteSelectedGroup() {
+        wd.findElement(By.name("delete")).click();
+    }
+
+    protected void selectGroup() {
+        wd.findElement(By.name("selected[]")).click();
     }
 }
