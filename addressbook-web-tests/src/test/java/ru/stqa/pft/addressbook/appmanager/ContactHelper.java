@@ -28,8 +28,9 @@ public class ContactHelper extends HelperBase {
     }
 
     public void alertAcceptContact() {
-        Alert alert  = wd.switchTo().alert();
-        alert.accept();
+        //Alert alert  = wd.switchTo().alert();
+        //alert.accept();
+        wd.switchTo().alert().accept();
     }
 
     public void deleteSelectedContact() {
@@ -38,5 +39,13 @@ public class ContactHelper extends HelperBase {
 
     public void selectContact() {
         clickContact(By.name("selected[]"));
+    }
+
+    public void editContact() {
+        clickContact(By.xpath("//img[@title='EDIT']"));
+    }
+
+    public void submitContactModification() {
+        clickContact(By.name("update"));
     }
 }

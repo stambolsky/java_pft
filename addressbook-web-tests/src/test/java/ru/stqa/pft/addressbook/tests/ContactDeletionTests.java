@@ -11,5 +11,4 @@ public class ContactDeletionTests extends TestBase {
         app.getContactHelper().alertAcceptContact();
         app.getContactHelper().goToHome();
     }
-
 }
