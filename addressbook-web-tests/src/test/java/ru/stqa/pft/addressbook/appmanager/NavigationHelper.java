@@ -18,10 +18,5 @@ public class NavigationHelper extends HelperBase {
        click(By.linkText("GROUPS"));
     }
 
-    public void goToAddContact() {
-        if (isElementPresent(By.tagName("h1")) && wd.findElement(By.tagName("h1")).getText().equals("EDIT_ADD_ENTRY")) {
-            return;
-        }
-        clickContact(By.linkText("ADD_NEW"));
-    }
+
 }

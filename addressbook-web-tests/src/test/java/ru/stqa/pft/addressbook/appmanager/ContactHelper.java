@@ -58,4 +58,23 @@ public class ContactHelper extends HelperBase {
     public void submitContactModification() {
         clickContact(By.name("update"));
     }
+
+    public void goToAddContact() {
+        if (isElementPresent(By.tagName("h1")) && wd.findElement(By.tagName("h1")).getText().equals("EDIT_ADD_ENTRY")) {
+            return;
+        }
+        clickContact(By.linkText("ADD_NEW"));
+    }
+
+    public boolean isThereAContact() {
+        return isElementPresent(By.name("selected[]"));
+    }
+
+
+    public void createContact(ContactData contact) {
+        goToAddContact();
+        fillContactForm(contact, true);
+        submitContactCreation();
+        goToHome();
+    }
 }
