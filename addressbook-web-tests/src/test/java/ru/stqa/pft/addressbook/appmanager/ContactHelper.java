@@ -73,7 +73,7 @@ public class ContactHelper extends HelperBase {
 
     public void createContact(ContactData contact) {
         goToAddContact();
-        fillContactForm(contact, true);
+        fillContactForm(contact, false);
         submitContactCreation();
         goToHome();
     }
