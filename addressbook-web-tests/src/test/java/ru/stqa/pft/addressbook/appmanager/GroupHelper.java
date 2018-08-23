@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import ru.stqa.pft.addressbook.model.GroupData;
 
@@ -52,6 +53,17 @@ public class GroupHelper extends HelperBase {
     }
 
     public boolean isThereAGroup() {
-        return isElementPresent(By.name("selected[]"));
+        try {
+            wd.findElement(By.name("selected[]")).isDisplayed();
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+
+        //return isElementPresent(By.name("selected[]"));*/
+    }
+
+    public int getGroupCount() {
+        return wd.findElements(By.name("selected[]")).size();
     }
 }
