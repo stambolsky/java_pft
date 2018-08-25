@@ -22,18 +22,12 @@ public class ContactHelper extends HelperBase {
         clickContact(By.name("submit"));
     }
 
-    public void fillContactForm(ContactData contactData, boolean creation) {
+    public void fillContactForm(ContactData contactData) {
         typeContact(By.name("firstname"), contactData.getFirstname());
         typeContact(By.name("lastname"), contactData.getLastname());
         typeContact(By.name("address"), contactData.getAddress());
         typeContact(By.name("home"), contactData.getPhone());
         typeContact(By.name("email"), contactData.getEmail());
-
-        if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-        } else {
-            Assert.assertFalse(isElementPresent(By.name("new_group")));
-        }
     }
 
     public void goToHome() {
@@ -83,7 +77,7 @@ public class ContactHelper extends HelperBase {
 
     public void createContact(ContactData contact) {
         goToAddContact();
-        fillContactForm(contact, false);
+        fillContactForm(contact);
         submitContactCreation();
         goToHome();
     }
@@ -96,8 +90,10 @@ public class ContactHelper extends HelperBase {
         List<ContactData> contacts = new ArrayList<>();
         List<WebElement> elements = wd.findElements((By.name("entry")));
         for (WebElement element : elements) {
-            String name = element.getText();
-            ContactData contact = new ContactData(name, null,null,null,null,null);
+            String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
+            String firstname = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
+            String id = element.findElement(By.tagName("input")).getAttribute("value");
+            ContactData contact = new ContactData(id, firstname, lastname,null,null,null,null);
             contacts.add(contact);
         }
         return contacts;
