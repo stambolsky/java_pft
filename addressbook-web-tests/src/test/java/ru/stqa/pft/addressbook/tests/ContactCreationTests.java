@@ -12,6 +12,7 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void testContactCreation() {
+        app.getContactHelper().goToHome();
         List<ContactData> before = app.getContactHelper().getContactList();
         ContactData contact = new ContactData("Sergey", "Tambolsky", "test123", "+37512345678", "test@test.test", null);
         app.getContactHelper().goToAddContact();
