@@ -14,15 +14,15 @@ public class ContactModificationTest extends TestBase {
     public void ensurePreconditionsContact() {
         app.contact().goToHome();
         if (app.contact().list().size() == 0) {
-            app.contact().create(new ContactData("Sergey", "Tambolsky", "test123", "+37512345678", "test@test.test", "test1"));
+            app.contact().create(new ContactData().withGroup("test1"));
         }
     }
 
     @Test
     public void testContactModification() {
         List<ContactData> before = app.contact().list();
-        ContactData contact = new ContactData(before.get(before.size() - 1).getId(),"EditSergey", "TambolskyEdit", "testEdit123", "+37512345678", "testEdit@test.test", null);
         int index = before.size() - 1;
+        ContactData contact = new ContactData().withId(before.get(index).getId()).withFirstname("EditSergey").withLastname("TambolskyEdit").withAddress("testEdit123").withPhone("+37512345678").withEmail("testEdit@test.test").withGroup(null);
         app.contact().modify(contact, index);
         List<ContactData> after = app.contact().list();
         Assert.assertEquals(after.size(), before.size());
