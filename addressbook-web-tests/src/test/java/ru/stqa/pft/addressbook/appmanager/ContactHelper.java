@@ -4,13 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.GroupData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -44,13 +42,12 @@ public class ContactHelper extends HelperBase {
         clickContact(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
     }
 
-    public void selectContact(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
+    public void selectContactById(int id) {
+        wd.findElement(By.cssSelector("input[value ='" + id + "']")).click();
     }
 
-    public void editContact(int index) {
-        wd.findElements(By.xpath("//img[@title='EDIT']")).get(index).click();
-        //clickContact(By.xpath("//img[@title='EDIT']"));
+    public void editContactById(int id) {
+        wd.findElement(By.xpath("//input[@value='" + id + "']/../..//img[@title='EDIT']")).click();
     }
 
     public void submitContactModification() {
@@ -82,16 +79,16 @@ public class ContactHelper extends HelperBase {
         goToHome();
     }
 
-    public void modify(ContactData contact, int index) {
-        selectContact(index);
-        editContact(index);
+    public void modify(ContactData contact) {
+        selectContactById(contact.getId());
+        editContactById(contact.getId());
         fillContactForm(contact);
         submitContactModification();
         goToHome();
     }
 
-    public void delete(int index) {
-        selectContact(index);
+    public void delete(ContactData contact) {
+        selectContactById(contact.getId());
         deleteSelectedContact();
         alertAcceptContact();
         goToHome();
@@ -101,8 +98,8 @@ public class ContactHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<>();
+    public Set<ContactData> all() {
+        Set<ContactData> contacts = new HashSet<ContactData>();
         List<WebElement> elements = wd.findElements((By.name("entry")));
         for (WebElement element : elements) {
             String lastname = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
