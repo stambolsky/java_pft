@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
 
+    public Object goTo;
     private WebDriver wd;
 
     private SessionHelper sessionHelper;
