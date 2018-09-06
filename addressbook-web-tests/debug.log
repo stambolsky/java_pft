@@ -1,0 +1,4 @@
+[0906/224129.612:ERROR:process_reader_win.cc(151)] SuspendThread: Отказано в доступе. (0x5)
+[0906/224129.612:ERROR:process_reader_win.cc(151)] SuspendThread: Отказано в доступе. (0x5)
+[0906/224129.612:ERROR:process_reader_win.cc(151)] SuspendThread: Отказано в доступе. (0x5)
+[0906/224129.612:ERROR:exception_snapshot_win.cc(88)] thread ID 6376 not found in process

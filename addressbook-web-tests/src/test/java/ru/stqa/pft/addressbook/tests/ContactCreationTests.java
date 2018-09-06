@@ -4,9 +4,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-import ru.stqa.pft.addressbook.model.GroupData;
 
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,12 +20,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactCreationTests extends TestBase {
 
     @DataProvider
-    public Iterator<Object[]> validContacts(){
+    public Iterator<Object[]> validContacts() throws IOException {
         List<Object[]> list = new ArrayList<Object[]>();
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
+        String line = reader.readLine();
         File photo = new File("src/test/resources/img.png");
-        list.add(new Object[] {new ContactData().withFirstname("Sergey").withLastname("Tambolsky").withPhoto(photo).withAddress("Belarus").withEmail("test@test.test").withEmail2("test2@test.test").withEmail3("test3@test.test").withHomePhone("+17512345678").withMobilePhone("+18387487934").withWorkPhone("+14298653676")});
-        list.add(new Object[] {new ContactData().withFirstname("Sergey2").withLastname("Tambolsky2").withPhoto(photo).withAddress("Belarus2").withEmail("test@test.test2").withEmail2("test2@test.test2").withEmail3("test3@test.test2").withHomePhone("+237512345678").withMobilePhone("+28387487934").withWorkPhone("+24298653676")});
-        list.add(new Object[] {new ContactData().withFirstname("Sergey3").withLastname("Tambolsky3").withPhoto(photo).withAddress("Belarus3").withEmail("test@test.test3").withEmail2("test2@test.test3").withEmail3("test3@test.test3").withHomePhone("+37512345678").withMobilePhone("+38387487934").withWorkPhone("+34298653676")});
+        while (line != null) {
+            String[] split = line.split(";");
+            list.add(new Object[] {new ContactData().withFirstname(split[0]).withLastname(split[1]).withPhoto(photo).withAddress(split[2]).withEmail(split[3]).withEmail2(split[4]).withEmail3(split[5]).withHomePhone(split[6]).withMobilePhone(split[7]).withWorkPhone(split[8])});
+            line = reader.readLine();
+        }
         return list.iterator();
     }
 
