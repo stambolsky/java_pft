@@ -1,0 +1,35 @@
+<list>
+  <contact>
+    <firstname>Sergey0</firstname>
+    <lastname>Tambolsky0</lastname>
+    <address>Belarus0</address>
+    <email>Home@test.test0</email>
+    <email2>Mobile@test.test0</email2>
+    <email3>Work@test.test0</email3>
+    <homePhone>+37529123450</homePhone>
+    <mobilePhone>+7655453220</mobilePhone>
+    <workPhone>+14298653670</workPhone>
+  </contact>
+  <contact>
+    <firstname>Sergey1</firstname>
+    <lastname>Tambolsky1</lastname>
+    <address>Belarus1</address>
+    <email>Home@test.test1</email>
+    <email2>Mobile@test.test1</email2>
+    <email3>Work@test.test1</email3>
+    <homePhone>+37529123451</homePhone>
+    <mobilePhone>+7655453221</mobilePhone>
+    <workPhone>+14298653671</workPhone>
+  </contact>
+  <contact>
+    <firstname>Sergey2</firstname>
+    <lastname>Tambolsky2</lastname>
+    <address>Belarus2</address>
+    <email>Home@test.test2</email>
+    <email2>Mobile@test.test2</email2>
+    <email3>Work@test.test2</email3>
+    <homePhone>+37529123452</homePhone>
+    <mobilePhone>+7655453222</mobilePhone>
+    <workPhone>+14298653672</workPhone>
+  </contact>
+</list>
