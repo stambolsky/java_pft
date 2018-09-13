@@ -7,8 +7,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-import ru.stqa.pft.addressbook.model.GroupData;
-
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,7 +36,7 @@ public class ContactCreationTests extends TestBase {
             XStream xStream = new XStream();
             xStream.processAnnotations(ContactData.class);
             List<ContactData> contacts = (List<ContactData>) xStream.fromXML(xml);
-            return contacts.stream().map((c) -> new Object[] {c}).collect(Collectors.toList()).iterator();
+            return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
         }
     }
 
@@ -52,8 +50,9 @@ public class ContactCreationTests extends TestBase {
                 line = reader.readLine();
             }
             Gson gson = new Gson();
-            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
-            return contacts.stream().map((c) -> new Object[] {c}).collect(Collectors.toList()).iterator();
+            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+            }.getType());
+            return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
         }
     }
 
