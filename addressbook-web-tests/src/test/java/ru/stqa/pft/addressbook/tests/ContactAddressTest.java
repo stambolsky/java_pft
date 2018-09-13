@@ -17,6 +17,7 @@ public class ContactAddressTest extends TestBase {
         ContactData contactInfoFromEditForm = app.contact().InfoFromEditForm(contact);
 
         assertThat(contact.getAddress(), equalTo(mergeAddress(contactInfoFromEditForm)));
+        verifyContactListInUi();
     }
 
     private String mergeAddress(ContactData contact) {
