@@ -62,4 +62,8 @@ public class HelperBase {
         }
         return false;
     }
+
+    public void goToHome() {
+        clickContact(By.linkText("HOME"));
+    }
 }

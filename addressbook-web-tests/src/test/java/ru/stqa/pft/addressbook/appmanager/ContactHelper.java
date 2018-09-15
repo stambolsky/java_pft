@@ -4,8 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
 
@@ -32,10 +35,6 @@ public class ContactHelper extends HelperBase {
         typeContact(By.name("email3"), contactData.getEmail3());
     }
 
-    public void goToHome() {
-        clickContact(By.linkText("HOME"));
-    }
-
     public void alertAcceptContact() {
         //Alert alert  = wd.switchTo().alert();
         //alert.accept();
@@ -52,6 +51,10 @@ public class ContactHelper extends HelperBase {
 
     public void editContactById(int id) {
         wd.findElement(By.xpath("//input[@value='" + id + "']/../..//img[@title='EDIT']")).click();
+    }
+
+    public void detailsContactById(int id) {
+        wd.findElement(By.xpath("//input[@value='" + id + "']/../..//img[@title='DETAILS']")).click();
     }
 
     public void submitContactModification() {
@@ -91,6 +94,11 @@ public class ContactHelper extends HelperBase {
         submitContactModification();
         contactCashe = null;
         goToHome();
+    }
+
+    public void detail(ContactData contact) {
+        selectContactById(contact.getId());
+        detailsContactById(contact.getId());
     }
 
     public void delete(ContactData contact) {
@@ -149,5 +157,29 @@ public class ContactHelper extends HelperBase {
         WebElement row = checkbox.findElement(By.xpath(".//..//.."));
         List<WebElement> cells = row.findElements(By.tagName("td"));
         cells.get(7).findElement(By.tagName("a")).click();
+    }
+
+    public boolean isInGroups(Groups groups, GroupData groupData) {
+        for (GroupData group : groups) {
+            if (group.equals(groupData)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addGroup(ContactData contacts, int id) {
+        selectContactById(contacts.getId());
+        new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(id));
+        click(By.name("add"));
+    }
+
+    public ContactData getContact(Contacts contacts, int id) {
+        for (ContactData contactData : contacts) {
+            if (contactData.getId() == id) {
+                return contactData;
+            }
+        }
+        return new ContactData();
     }
 }
