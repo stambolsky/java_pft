@@ -5,12 +5,15 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
+
+import static ru.stqa.pft.addressbook.tests.TestBase.app;
 
 public class ContactHelper extends HelperBase {
 
@@ -33,6 +36,17 @@ public class ContactHelper extends HelperBase {
         typeContact(By.name("email"), contactData.getEmail());
         typeContact(By.name("email2"), contactData.getEmail2());
         typeContact(By.name("email3"), contactData.getEmail3());
+
+        if (contactData.getGroups().size() > 0) {
+            Assert.assertTrue(contactData.getGroups().size() == 1);
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText((contactData.getGroups().iterator().next().getName()));
+        } else {
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
+    }
+
+    public void addContact() {
+        click(By.linkText("add new"));
     }
 
     public void alertAcceptContact() {
@@ -182,4 +196,31 @@ public class ContactHelper extends HelperBase {
         }
         return new ContactData();
     }
+
+    public void isFromGroup(ContactData contacts, int id) {
+        new Select(wd.findElement(By.name("group"))).selectByValue(String.valueOf(id));
+        //boolean element = Assert.NotNull(wd.FindElement(By.name("entry")).Displayed);
+        if (IsElementExists(By.name("entry")) == false) {
+            Groups groups = app.db().groups();
+            goToHome();
+            create(new ContactData().withFirstname("SergeyEdit").withLastname("TambolskyEdit")
+                    .withAddress("EditTest123").withEmail("testEdit@test.test").withEmail2("test2Edit@test.test").withEmail3("test3Edit@test.test")
+                    .withHomePhone("+375987656553").withMobilePhone("+987654326").withWorkPhone("+987654332354").inGroup(groups.iterator().next()));
+        } else {
+            selectContactById(contacts.getId());
+            click(By.name("remove"));
+        }
+    }
+
+    public boolean IsElementExists(By iClassName) {
+        try {
+            wd.findElement(iClassName);
+            return true;
+        }
+        catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
 }
+
+

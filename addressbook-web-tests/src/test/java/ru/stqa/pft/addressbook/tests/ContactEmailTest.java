@@ -10,8 +10,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactEmailTest extends TestBase {
+
     @Test
-    public void testContactPhones() {
+    public void testContactEmail() {
         app.contact().goToHome();
         ContactData contact = app.contact().all().iterator().next();
         ContactData contactInfoFromEditForm = app.contact().InfoFromEditForm(contact);
