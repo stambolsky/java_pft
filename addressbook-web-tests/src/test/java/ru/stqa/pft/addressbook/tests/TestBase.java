@@ -10,6 +10,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
+import ru.stqa.pft.addressbook.appmanager.ContactHelper;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -70,6 +71,84 @@ public class TestBase {
                             .withMobilePhone(c.getMobilePhone()).withWorkPhone(c.getWorkPhone()))
                     .collect(Collectors.toSet())));
         }
+    }
+
+    public void verifyCreateGroups(GroupData group) {
+        app.goTo().groupPage();
+        Groups before = app.db().groups();
+        app.group().create(group);
+        assertThat(app.group().count(), equalTo(before.size() + 1));
+        Groups after = app.db().groups();
+        assertThat(after, equalTo(
+                before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        verifyGroupListInUi();
+    }
+
+    public void createContact(Groups groups) {
+        app.goTo().goToHome();
+        app.contact().create(new ContactData().withFirstname("SergeyEdit").withLastname("TambolskyEdit")
+                .withAddress("EditTest123").withEmail("testEdit@test.test").withEmail2("test2Edit@test.test").withEmail3("test3Edit@test.test")
+                .withHomePhone("+375987656553").withMobilePhone("+987654326").withWorkPhone("+987654332354").inGroup(groups.iterator().next()));
+    }
+
+    public void verifyContactsZero() {
+        if (app.db().contacts().size() == 0) {
+            Groups groups = app.db().groups();
+            createContact(groups);
+        }
+    }
+
+    public void verifyGroupsZero() {
+        if (app.db().groups().size() == 0) {
+            app.goTo().groupPage();
+            app.group().create(new GroupData().withName("Test"));
+        }
+    }
+
+    public void addContactInGroup(Groups groups, ContactData modifiedContact, Groups before, ContactHelper contactHelper) {
+        for (GroupData groupData : groups) {
+            if (!contactHelper.isInGroups(before, groupData)) {
+                app.contact().goToHome();
+                contactHelper.addGroup(modifiedContact, groupData.getId());
+                before.add(groupData);
+                Groups after = contactHelper.getContact(app.db().contacts(), modifiedContact.getId()).getGroups();
+                assertThat(after, equalTo(before));
+            }
+        }
+    }
+
+    public void verifyAddGroup(ContactData modifiedContact, Groups before, ContactHelper contactHelper, GroupData group, int id) {
+        app.contact().goToHome();
+        contactHelper.addGroup(modifiedContact, id);
+        before.add(group.withId(id));
+        Groups after = contactHelper.getContact(app.db().contacts(), modifiedContact.getId()).getGroups();
+        assertThat(after, equalTo(before));
+    }
+
+    public GroupData createGroup() {
+        app.goTo().groupPage();
+        GroupData group = new GroupData().withName("group1").withHeader("Header1").withFooter("Footer1");
+        app.group().create(group);
+        return group;
+    }
+
+    public void verifyRemoveGroup(Groups groups, ContactData modifiedContact, Groups before, ContactHelper contactHelper) {
+        GroupData group = groups.iterator().next();
+        app.goTo().goToHome();
+        contactHelper.addGroup(modifiedContact, group.getId());
+        app.goTo().goToHome();
+        contactHelper.isFromGroup(modifiedContact, group.getId());
+        before.remove(group);
+        Groups after = app.contact().getContact(app.db().contacts(), modifiedContact.getId()).getGroups();
+        assertThat(after, equalTo(before));
+    }
+
+    public void removeGroup(ContactData modifiedContact, Groups before, ContactHelper contactHelper, GroupData groupdata) {
+        app.goTo().goToHome();
+        contactHelper.isFromGroup(modifiedContact, groupdata.getId());
+        before.remove(groupdata);
+        Groups after = contactHelper.getContact(app.db().contacts(), modifiedContact.getId()).getGroups();
+        assertThat(after, equalTo(before));
     }
 }
 

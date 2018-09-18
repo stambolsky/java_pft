@@ -55,14 +55,7 @@ public class GroupCreationTests extends TestBase {
 
     @Test(dataProvider = "validGroupsFromXml")
     public void testGroupCreation(GroupData group) {
-        app.goTo().groupPage();
-        Groups before = app.db().groups();
-        app.group().create(group);
-        assertThat(app.group().count(), equalTo(before.size() + 1));
-        Groups after = app.db().groups();
-        assertThat(after, equalTo(
-                before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
-        verifyGroupListInUi();
+        verifyCreateGroups(group);
     }
 
     @Test
