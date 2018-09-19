@@ -221,6 +221,19 @@ public class ContactHelper extends HelperBase {
             return false;
         }
     }
+
+    public void addContactToGroup(ContactData contact, GroupData group) {
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+        selectContactById(contact.getId());
+        click(By.cssSelector("input[name='add']"));
+    }
+
+    public void removeGroupToContact(ContactData removeContact, GroupData removeGroup) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(removeGroup.getName());
+        selectContactById(removeContact.getId());
+        click(By.cssSelector("input[name='remove']"));
+    }
+
 }
 
 
