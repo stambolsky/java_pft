@@ -54,7 +54,7 @@ public class ApplicationManager {
     }
 
     public WebDriver getDriver() {
-        if (browser.equals(BrowserType.FIREFOX)) {
+        if (wd == null) {
             if (browser.equals(BrowserType.FIREFOX)) {
                 wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
             } else if (browser.equals(BrowserType.IE)) {
