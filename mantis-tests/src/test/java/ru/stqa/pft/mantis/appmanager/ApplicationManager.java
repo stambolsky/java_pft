@@ -17,11 +17,11 @@ public class ApplicationManager {
 
     private final Properties properties;
     private WebDriver wd;
-
     private String browser;
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp;
     private MailHelper mailHelper;
+    private JamesHelper jamesHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -30,7 +30,7 @@ public class ApplicationManager {
 
     public void init() throws IOException {
         String target = System.getProperty("target", "local");
-        properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+        properties.load(new FileReader(new File(String.format("src\\test\\resources\\%s.properties", target))));
     }
 
     public void stop() {
@@ -41,6 +41,27 @@ public class ApplicationManager {
 
     public HttpSession newSession() {
         return new HttpSession(this);
+    }
+
+    public FtpHelper ftp() {
+        if (ftp == null) {
+            ftp = new FtpHelper(this);
+        }
+        return ftp;
+    }
+
+    public MailHelper mail(){
+        if (mailHelper == null) {
+            mailHelper = new MailHelper(this);
+        }
+        return mailHelper;
+    }
+
+    public JamesHelper james(){
+        if (jamesHelper == null) {
+            jamesHelper = new JamesHelper(this);
+        }
+        return jamesHelper;
     }
 
     public String getProperty(String key) {
@@ -54,32 +75,18 @@ public class ApplicationManager {
         return registrationHelper;
     }
 
-    public FtpHelper ftp() {
-        if (ftp == null) {
-            ftp = new FtpHelper(this);
-        }
-        return ftp;
-    }
-
     public WebDriver getDriver() {
         if (wd == null) {
             if (browser.equals(BrowserType.FIREFOX)) {
-                wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
-            } else if (browser.equals(BrowserType.IE)) {
-                wd = new InternetExplorerDriver();
+                wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true).setBinary("F:/tools/Firefox.45.9.0ESR/firefox.exe"));
             } else if (browser.equals(BrowserType.CHROME)) {
                 wd = new ChromeDriver();
+            } else if (browser.equals(BrowserType.IE)) {
+                wd = new InternetExplorerDriver();
             }
             wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
             wd.get(properties.getProperty("web.baseUrl"));
         }
         return wd;
-    }
-
-    public MailHelper mail() {
-        if (mailHelper == null) {
-            mailHelper = new MailHelper(this);
-        }
-        return mailHelper;
     }
 }
