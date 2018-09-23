@@ -22,6 +22,7 @@ public class ApplicationManager {
     private FtpHelper ftp;
     private MailHelper mailHelper;
     private JamesHelper jamesHelper;
+    private ChangePassword changePassword;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -73,6 +74,13 @@ public class ApplicationManager {
             registrationHelper = new RegistrationHelper(this);
         }
         return registrationHelper;
+    }
+
+    public ChangePassword changePassword() {
+        if(changePassword == null) {
+            changePassword = new ChangePassword(this);
+        }
+        return changePassword;
     }
 
     public WebDriver getDriver() {

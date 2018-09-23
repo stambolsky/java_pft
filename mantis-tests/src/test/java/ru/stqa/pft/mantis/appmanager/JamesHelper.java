@@ -82,9 +82,15 @@ public class JamesHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        readUntil("Login id:");
+        write("");
+        readUntil("Password:");
+        write("");
+
+        readUntil("Welcome " + login + ". HELP for a list of commands");
     }
 
-    public List<MailMessage> waitForMail(String username, String password, long timeout) throws MessagingException {
+    public List<MailMessage> waitForMail(String username, String password, long timeout) throws MessagingException, IOException, javax.mail.MessagingException {
         long now = System.currentTimeMillis();
         while (System.currentTimeMillis() < now + timeout) {
             List<MailMessage> allMail = getAllMail(username, password);
@@ -100,7 +106,7 @@ public class JamesHelper {
         throw new Error("No mail");
     }
 
-    private List<MailMessage> getAllMail(String username, String password) throws MessagingException {
+    private List<MailMessage> getAllMail(String username, String password) throws MessagingException, javax.mail.MessagingException {
         Folder inbox = openInbox(username, password);
         List<MailMessage> messages = Arrays.asList(inbox.getMessages())
                 .stream().map((m) -> toModelMail(m)).collect(Collectors.toList());
@@ -108,12 +114,12 @@ public class JamesHelper {
         return messages;
     }
 
-    private void closeFolder(Folder folder) throws MessagingException {
+    private void closeFolder(Folder folder) throws javax.mail.MessagingException {
         folder.close(true);
         store.close();
     }
 
-    private Folder openInbox(String username, String password) throws MessagingException {
+    private Folder openInbox(String username, String password) throws MessagingException, javax.mail.MessagingException {
         store = mailSession.getStore("pop3");
         store.connect(mailServer, username, password);
         Folder folder = store.getDefaultFolder().getFolder("INBOX");
@@ -124,12 +130,29 @@ public class JamesHelper {
     private MailMessage toModelMail(Message m) {
         try {
             return new MailMessage(m.getAllRecipients()[0].toString(), (String) m.getContent());
-        } catch (MessagingException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
-        } catch (IOException e) {
+        } catch (javax.mail.MessagingException e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
+    public boolean doesUserExist(String name) {
+        initTelnetSession();
+        write("verify " + name);
+        String result = readUntil("exist");
+        closeTelnetSession();
+        return result.trim().equals("User" + name + "exist");
+    }
+
+    public void deleteUser(String name) {
+        initTelnetSession();
+        write("deluser " + name);
+        String result = readUntil("User " + " deleted");
+        closeTelnetSession();
+    }
+
 }
