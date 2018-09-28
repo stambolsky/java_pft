@@ -34,9 +34,9 @@ public class PasswordChangeTests extends TestBase {
         HttpSession session = app.newSession();
         assertTrue(session.login(randomUserName, newPassword));
         assertTrue(session.isLoginInAs(randomUserName));
+        //авторизация пользователем с новым паролем
         app.changePassword().login(randomUserName,newPassword);
         assertTrue(session.isLoginInAs(randomUserName));
-
     }
 
     private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
