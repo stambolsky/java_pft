@@ -28,7 +28,7 @@ public class Issue {
         return this;
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -46,7 +46,7 @@ public class Issue {
         result = 31 * result + (subject != null ? subject.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
-    }
+    }*/
 
     public String getSubject() {
         return subject;
