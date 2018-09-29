@@ -8,6 +8,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'org.apache.httpcomponents:httpclient:4.5.5'
     compile 'org.apache.httpcomponents:fluent-hc:4.5.5'
-    compile 'io.rest-assured.examples:rest-assured-itest-java:3.0.2'
+    compile 'com.jayway.restassured:rest-assured:2.9.0'
 }
 

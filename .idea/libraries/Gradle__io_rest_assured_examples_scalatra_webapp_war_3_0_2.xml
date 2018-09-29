@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: io.rest-assured.examples:scalatra-webapp:war:3.0.2">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.rest-assured.examples/scalatra-webapp/3.0.2/1ce0fed6baa50c8a4582347813dcb3147f995ee4/scalatra-webapp-3.0.2.war!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
